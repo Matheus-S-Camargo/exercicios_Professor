@@ -97,17 +97,22 @@ const streamingApp = {
 };
 
 function novoObjeto(obj){
-    const objNovo = [];
-    objNovo.push(Object.entries(obj).find(item => {
-        if (item[0] == "plataforma") return item;
-    }));
-    objNovo.push(Object.entries(obj).find(item => {
-        if (item[0] == "versao_api") return item;
-    }));
-    obj.biblioteca.filmes.forEach(item => {
-        objNovo.push(`${item.titulo} - ${item.ano_lancamento}`);
-        objNovo.push(item.generos);
-        objNovo.push(item.dados_tecnicos);
+    const objNovo = {};
+    let contador = 1;
+    for (let chave in obj){
+      if (chave == 'plataforma') objNovo[chave] = obj[chave]
+      if (chave == 'versao_api') {
+        objNovo[chave] = obj[chave]
+        objNovo.filmes = {}
+      }
+    }
+    obj.biblioteca.filmes.map(item => {
+      const filmeAtual = item.titulo;
+      objNovo.filmes[`filme ${contador}`] = item.titulo;
+      objNovo.filmes[`ano_lancamento do ${filmeAtual}`] = item.ano_lancamento;
+      objNovo.filmes[`generos do filme ${filmeAtual}`] = item.generos;
+      objNovo.filmes[`dados_tecnicos do filme ${filmeAtual}`] = item.dados_tecnicos;
+      contador++;
     })
 
     console.log(objNovo);
@@ -115,6 +120,24 @@ function novoObjeto(obj){
 }
 
 novoObjeto(streamingApp);
+
+// function novoObjeto(obj){
+//     const objNovo = [];
+//     objNovo.push(Object.entries(obj).find(item => {
+//         if (item[0] == "plataforma") return item;
+//     }));
+//     objNovo.push(Object.entries(obj).find(item => {
+//         if (item[0] == "versao_api") return item;
+//     }));
+//     obj.biblioteca.filmes.forEach(item => {
+//         objNovo.push(`${item.titulo} - ${item.ano_lancamento}`);
+//         objNovo.push(item.generos);
+//         objNovo.push(item.dados_tecnicos);
+//     })
+
+//     console.log(objNovo);
+    
+// }
 
 // function(param){
 //     plataforma: "CineFlow Premium",
